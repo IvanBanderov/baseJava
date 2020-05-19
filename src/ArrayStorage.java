@@ -21,7 +21,7 @@ public class ArrayStorage {
         int size = size();
         if (size > 0) {
             for (int i = 0; i < size; i++) {
-                if (storage[i] != null && storage[i].uuid.equals(uuid)) return storage[i];
+                if (checkStorage(i, uuid)) return storage[i];
             }
         }
         return null;
@@ -31,7 +31,7 @@ public class ArrayStorage {
         int size = size();
         if (size > 0) {
             for (int i = 0; i < size; i++) {
-                if (storage[i] != null && storage[i].uuid.equals(uuid)) storage[i] = null;
+                if (checkStorage(i, uuid)) storage[i] = null;
             }
         }
     }
@@ -57,5 +57,9 @@ public class ArrayStorage {
             if (storage[i] != null) size++;
         }
         return size;
+    }
+
+    private boolean checkStorage(int index, String uuid) {
+        return storage[index] != null && storage[index].uuid.equals(uuid);
     }
 }
