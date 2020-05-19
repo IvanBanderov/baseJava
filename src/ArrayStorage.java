@@ -21,7 +21,9 @@ public class ArrayStorage {
         int size = size();
         if (size > 0) {
             for (int i = 0; i < size; i++) {
-                if (checkStorage(i, uuid)) return storage[i];
+                if (checkStorage(i, uuid)) {
+                    return storage[i];
+                }
             }
         }
         return null;
@@ -31,7 +33,9 @@ public class ArrayStorage {
         int size = size();
         if (size > 0) {
             for (int i = 0; i < size; i++) {
-                if (checkStorage(i, uuid)) storage[i] = null;
+                if (checkStorage(i, uuid)) {
+                    storage[i] = null;
+                }
             }
         }
     }
@@ -44,7 +48,9 @@ public class ArrayStorage {
         Resume[] resumes = new Resume[size()];
         if (size > 0) {
             for (int i = 0; i < size; i++) {
-                if (storage[i] != null) resumes[i] = storage[i];
+                if (storage[i] != null) {
+                    resumes[i] = storage[i];
+                }
             }
             return resumes;
         }
