@@ -14,12 +14,12 @@ public class ArrayStorage {
 
     void save(Resume r) {
         storage[size] = r;
-        size();
+        size++;
     }
 
     Resume get(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (checkStorage(i, uuid)) {
+            if (storage[i].uuid.equals(uuid)) {
                 return storage[i];
             }
         }
@@ -27,18 +27,15 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        for (int i = 0; i < size; i++)
-        {
+        int i;
+        for (i = 0; i < size; i++) {
             if (storage[i].uuid.equals(uuid))
-            {
-                Resume[] copyStorage = new Resume[10000];
-                System.arraycopy(storage, 0, copyStorage, 0, i);
-                System.arraycopy(storage, i+1, copyStorage, i, size-i-1);
-                storage = copyStorage;
                 break;
-            }
         }
-        size();
+        if (size - 1 - i >= 0) {
+            System.arraycopy(storage, i + 1, storage, i, size - i);
+        }
+        size--;
     }
 
     /**
@@ -59,9 +56,5 @@ public class ArrayStorage {
             if (storage[i+1] == null) break;
         }
         return size;
-    }
-
-    private boolean checkStorage(int index, String uuid) {
-        return storage[index].uuid.equals(uuid);
     }
 }
