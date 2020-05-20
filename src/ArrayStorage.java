@@ -34,8 +34,9 @@ public class ArrayStorage {
         }
         if (size - 1 - i >= 0) {
             System.arraycopy(storage, i + 1, storage, i, size - i);
+            size--;
         }
-        size--;
+
     }
 
     /**
