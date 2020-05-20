@@ -6,39 +6,39 @@ public class ArrayStorage {
     private int size = 0;
 
     void clear() {
-        if (size > 0) {
-            for (int i = 0; i < size; i++) {
-                storage[i] = null;
-            }
+        for (int i = 0; i < size; i++) {
+            storage[i] = null;
         }
+        size = 0;
     }
 
     void save(Resume r) {
         storage[size] = r;
         size();
-
     }
 
     Resume get(String uuid) {
-        if (size > 0) {
-            for (int i = 0; i < size; i++) {
-                if (checkStorage(i, uuid)) {
-                    return storage[i];
-                }
+        for (int i = 0; i < size; i++) {
+            if (checkStorage(i, uuid)) {
+                return storage[i];
             }
         }
         return null;
     }
 
     void delete(String uuid) {
-        if (size > 0) {
-            for (int i = 0; i < size; i++) {
-                if (checkStorage(i, uuid)) {
-                    storage[i] = null;
-                }
+        for (int i = 0; i < size; i++)
+        {
+            if (storage[i].uuid.equals(uuid))
+            {
+                Resume[] copyStorage = new Resume[10000];
+                System.arraycopy(storage, 0, copyStorage, 0, i);
+                System.arraycopy(storage, i+1, copyStorage, i, size-i-1);
+                storage = copyStorage;
+                break;
             }
-            size();
         }
+        size();
     }
 
     /**
@@ -46,15 +46,10 @@ public class ArrayStorage {
      */
     Resume[] getAll() {
         Resume[] resumes = new Resume[size()];
-        if (size > 0) {
-            for (int i = 0; i < size; i++) {
-                if (storage[i] != null) {
-                    resumes[i] = storage[i];
-                }
-            }
-            return resumes;
+        if (size >= 0) {
+            System.arraycopy(storage, 0, resumes, 0, size);
         }
-        return new Resume[0];
+        return resumes;
     }
 
     int size() {
@@ -66,6 +61,6 @@ public class ArrayStorage {
     }
 
     private boolean checkStorage(int index, String uuid) {
-        return storage[index] != null && storage[index].uuid.equals(uuid);
+        return storage[index].uuid.equals(uuid);
     }
 }
