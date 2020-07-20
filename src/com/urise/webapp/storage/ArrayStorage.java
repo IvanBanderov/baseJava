@@ -10,7 +10,6 @@ import java.util.Arrays;
 public class ArrayStorage {
     private Resume[] storage = new Resume[10000];
     private int size = 0;
-    private static int notExistIndex = -1;
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -18,7 +17,8 @@ public class ArrayStorage {
     }
 
     public void save(Resume resume) {
-        if (!isResumeExist(resume.getUuid())) {
+        int foundIndex = getResumeIndexByUuid(resume.getUuid());
+        if (foundIndex == -1) {
             System.out.println("Error while save resume. Not found resume with uuid " + resume.getUuid());
         } else if (size == storage.length) {
             System.out.println("Error while save resume. Too many resumes " + resume.getUuid());
@@ -30,7 +30,7 @@ public class ArrayStorage {
 
     public Resume get(String uuid) {
         int foundIndex = getResumeIndexByUuid(uuid);
-        if (foundIndex != notExistIndex) {
+        if (foundIndex > -1) {
             return storage[foundIndex];
         }
         System.out.println("Error while get resume. Not found resume with uuid " + uuid);
@@ -40,7 +40,7 @@ public class ArrayStorage {
 
     public void delete(String uuid) {
         int foundIndex = getResumeIndexByUuid(uuid);
-        if (foundIndex != notExistIndex) {
+        if (foundIndex > -1) {
             System.arraycopy(storage, foundIndex + 1, storage, foundIndex, size - foundIndex);
             size--;
             System.out.println("Resume " + uuid + " was deleted");
@@ -64,7 +64,7 @@ public class ArrayStorage {
 
     public void update(Resume resume) {
         int foundIndex = getResumeIndexByUuid(resume.getUuid());
-        if (foundIndex != notExistIndex) {
+        if (foundIndex > -1) {
             storage[foundIndex] = resume;
             System.out.println("Resume " + resume.toString() + " was updated " );
         } else {
@@ -83,14 +83,6 @@ public class ArrayStorage {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) return i;
         }
-        return notExistIndex;
-    }
-
-    /**
-     * @return true, if resume exist in storage
-     */
-    private boolean isResumeExist(String uuid) {
-        int index = getResumeIndexByUuid(uuid);
-        return index != notExistIndex;
+        return -1;
     }
 }
